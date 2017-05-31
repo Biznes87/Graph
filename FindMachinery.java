@@ -15,11 +15,11 @@ public class FindMachinery {
 
 //инициализация
 
-        Vertex v0 = new Vertex("Field1",0,'A');
-        Vertex v1 = new Vertex("Field2",1,'B');
-        Vertex v2 = new Vertex("Field3",2,'B');
-        Vertex v3 = new Vertex("Field4",3,'B');
-        Vertex v4 = new Vertex("Field5",4,'C');
+        Vertex v0 = new Vertex("Field1",0,"A");
+        Vertex v1 = new Vertex("Field2",1,"B");
+        Vertex v2 = new Vertex("Field3",2,"B");
+        Vertex v3 = new Vertex("Field4",3,"B");
+        Vertex v4 = new Vertex("Field5",4,"C");
 
 
 
@@ -95,7 +95,11 @@ public class FindMachinery {
             br = new BufferedReader(new FileReader(csvFile));
             while ((line = br.readLine()) != null) {
             String[] techList = line.split(cvsSplitBy);
-                System.out.println(techList[0]+"\t" + techList[1] + "\t" + techList[2]);     //Выводим список вершин и полей с техникой
+                System.out.println(techList[0]+"\t" + techList[1] + "\t" + techList[2]);//Выводим список вершин и полей с техникой
+
+                for (Vertex vert : Vertex.vertexBox) {
+                    if (vert.label.equals(techList[2])){ vert.addMachineryOnField(techList[1]);}
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
