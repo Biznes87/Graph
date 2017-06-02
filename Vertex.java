@@ -54,21 +54,21 @@ public class Vertex implements Comparable<Vertex>{
         for (int i = 0; i <vertexBox.size() ; i++) {
             vertexBox.get(i).index = indexBox.get(i);
         }
-        System.out.println(indexBox);
+     //   System.out.println(indexBox);
     }
 
     public static void sortVertexBox(){
-        for (Vertex vert:vertexBox) {
-            System.out.print(vert.printVertex());
+     //   for (Vertex vert:vertexBox) {
+       //     System.out.print(vert.printVertex());
 
-        }
-        System.out.println();
+//        }
+      //  System.out.println();
         Collections.sort(vertexBox);
-        for (Vertex vert:vertexBox) {
-            System.out.print(vert.printVertex());
+       // for (Vertex vert:vertexBox) {
+         //   System.out.print(vert.printVertex());
 
-        }
-        System.out.println();
+//        }
+  //      System.out.println();
     }
 
     public String printVertex(){

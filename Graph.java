@@ -1,13 +1,10 @@
 import java.util.Collections;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 
@@ -23,7 +20,7 @@ public class Graph {
     private DistPar sPath[];     // Массив данных кратчайших путей
     private int currentVert;     // Текущая вершина
     private int startToCurrent;  // Расстояние до currentVert
-    private Map<String,Integer> resultBox = new TreeMap<>();
+    private Map<Vertex,Integer> resultBox = new HashMap<>();
     public static boolean ASC = true;
     public static boolean DESC = false;
 
@@ -124,7 +121,8 @@ public class Graph {
             nTree++;
             adjust_sPath();         // Обновление массива sPath[]
         }
-        displayPaths();             // Вывод содержимого sPath[]
+        displayPaths();// Вывод содержимого sPath[]
+        displayNearestMachinery();
         nTree = 0;
         for(int j=0; j<nVerts; j++)     // Очистка дерева
             vertexList[j].setInTreeFalse();
@@ -173,7 +171,7 @@ public class Graph {
         for(int j=0; j<nVerts; j++) // display contents of sPath[]
         {
             System.out.print(vertexList[j].label + "="); // B=
-            resultBox.put(vertexList[j].label,sPath[j].distance);
+
             if(sPath[j].distance == INFINITY) System.out.print("inf");
             else System.out.print(sPath[j].distance);
 
@@ -183,43 +181,63 @@ public class Graph {
         System.out.println();
     }
 
-    public void displayNearestMachinery(){
-            int numberOfMachinery=0;
-        for (int i = 0; i <nVerts ; i++) {
-            if(vertexList[i].index==0) {
-                String requestType = vertexList[i].machineryType;
+    public void displayNearestMachinery() {
+        String requestType = "";
+        int numberOfMachinery = 0;
+        for (int i = 0; i < nVerts; i++) {
+            if (vertexList[i].index == 0) {
+                requestType = vertexList[i].machineryType;
                 System.out.println("Требуемый тип техники - " + requestType);
-                    for (String type:vertexList[i].machineryOnField) {
-                        if(type.equals(requestType)) System.out.print(vertexList[i].label + " - "+ sPath[i].distance + requestType+" "+i);
+            }
+        }
+        System.out.println("Имя поля" + "\t"+"Расстояние" + "\t" + "Тип техники" + "\t" + "номер");
+        System.out.println("###########################################################");
+            for (int j = 0; j < nVerts; j++) {
+                if(numberOfMachinery>=3) break;
+                    if ((sPath[j].distance == INFINITY) && (vertexList[j].index != 0)) {    //если путь недостижим
+                        System.out.println("Нет пути из точки " + vertexList[j].label);
+                    }
+                    if ((sPath[j].distance == INFINITY) && (vertexList[j].index == 0)) {    //если точка и есть начальная
+                     //   System.out.println("Старотовая точка " + vertexList[j].label);
+                        for (String type : vertexList[j].machineryOnField) {
+                            if (type.equals(requestType)) {
+                                System.out.println(vertexList[j].label + "\t\t" + "Начало" +	"\t\t"+ requestType + "\t\t\t " + j);
+                                numberOfMachinery++;
+
+                            }
+                        }
+                    } else {                                                              //все остальные точки добавляем в контейнер
+                        resultBox.put(vertexList[j], sPath[j].distance);
+                    }
                 }
+
+                Map<Vertex, Integer> sortedMapAsc = sortByComparator(resultBox, ASC);
+
+                for (Entry<Vertex, Integer> entry : sortedMapAsc.entrySet()) {
+                    if(numberOfMachinery>=3) break;
+
+                    for (String type : entry.getKey().machineryOnField) {
+                        if(numberOfMachinery>=3) break;
+                        if (type.equals(requestType)) {
+                            System.out.println(entry.getKey().label + "\t\t" + entry.getValue() + "\t\t\t"+requestType + "\t\t\t" + numberOfMachinery);
+                            numberOfMachinery++;
+                        }
+                      //  System.out.println("Key : " + entry.getKey().label + " Value : " + entry.getValue());
+                    }
+
+                }
+
             }
-            Map<String, Integer> sortedMapAsc = sortByComparator(resultBox, ASC);
-            for (Entry<String, Integer> entry : resultBox.entrySet())
-            {
-                System.out.println("Key : " + entry.getKey() + " Value : "+ entry.getValue());
-            }
-            for (int j = 0; j <nVerts ; j++) {
 
-         }
+    private static Map<Vertex, Integer> sortByComparator(Map<Vertex, Integer> unsortMap, final boolean order){
 
-            }
-
-
-
-
-
-    }
-
-    private static Map<String, Integer> sortByComparator(Map<String, Integer> unsortMap, final boolean order)
-    {
-
-        List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(unsortMap.entrySet());
+        List<Entry<Vertex, Integer>> list = new LinkedList<Entry<Vertex, Integer>>(unsortMap.entrySet());
 
         // Sorting the list based on values
-        Collections.sort(list, new Comparator<Entry<String, Integer>>()
+        Collections.sort(list, new Comparator<Entry<Vertex, Integer>>()
         {
-            public int compare(Entry<String, Integer> o1,
-                               Entry<String, Integer> o2)
+            public int compare(Entry<Vertex, Integer> o1,
+                               Entry<Vertex, Integer> o2)
             {
                 if (order)
                 {
@@ -234,8 +252,8 @@ public class Graph {
         });
 
         // Maintaining insertion order with the help of LinkedList
-        Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-        for (Entry<String, Integer> entry : list)
+        Map<Vertex, Integer> sortedMap = new LinkedHashMap<Vertex, Integer>();
+        for (Entry<Vertex, Integer> entry : list)
         {
             sortedMap.put(entry.getKey(), entry.getValue());
         }

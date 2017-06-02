@@ -49,10 +49,10 @@ public class FindMachinery {
             theGraph.addVertex(Vertex.vertexBox.get(i));
         }
 
-        theGraph.printAdjMatShift();
+      //  theGraph.printAdjMatShift();
         theGraph.changeAddMat(stPoint);
-        System.out.println();
-        theGraph.printAdjMat();
+       // System.out.println();
+        //theGraph.printAdjMat();
 
     /*
         Vertex v0 = new Vertex('A',0);
