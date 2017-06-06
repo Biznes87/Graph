@@ -12,7 +12,7 @@ public class Vertex implements Comparable<Vertex>{
     public static List<Integer> indexBox = new ArrayList<>();
     public static List<Vertex> vertexBox = new ArrayList<>();
     public List<String> machineryOnField =new ArrayList<>();
-
+    public static List<Vertex> vertexBoxEtalon = new ArrayList<>();
     public Vertex(String label,int index, String machineryType) {
         this.label = label;
         this.machineryType=machineryType;
@@ -20,6 +20,7 @@ public class Vertex implements Comparable<Vertex>{
         this.index=index;
         indexBox.add(index);
         vertexBox.add(this);
+        vertexBoxEtalon.add(this);
     }
 
     public void setInTreeTrue() {
@@ -54,7 +55,7 @@ public class Vertex implements Comparable<Vertex>{
         for (int i = 0; i <vertexBox.size() ; i++) {
             vertexBox.get(i).index = indexBox.get(i);
         }
-     //   System.out.println(indexBox);
+      //  System.out.println(indexBox);
     }
 
     public static void sortVertexBox(){
@@ -64,16 +65,20 @@ public class Vertex implements Comparable<Vertex>{
 //        }
       //  System.out.println();
         Collections.sort(vertexBox);
-       // for (Vertex vert:vertexBox) {
-         //   System.out.print(vert.printVertex());
-
-//        }
-  //      System.out.println();
+     //  for (Vertex vert:vertexBox) {
+       //  System.out.print(vert.printVertex());
+        //}
+      //System.out.println();
     }
 
     public String printVertex(){
         String str ="";
         return str = label + " - "+index;
+    }
+
+    public void resetVertex(){
+
+
     }
 
     @Override

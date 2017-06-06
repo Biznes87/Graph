@@ -12,22 +12,22 @@ public class Graph {
 
     private final int MAX_VERTS = 5;
     private final int INFINITY = 200;
-    private Vertex vertexList[]; // Список вершин
-    private int adjMat[][];      // Матрица смежности
+    private Vertex vertexList[];                            // Список вершин
+    private int adjMat[][];                                 // Матрица смежности
     private int adjMatShift[][];
-    private int nVerts;          // Текущее количество вершин
-    private int nTree;           // Количество вершин в дереве
-    private DistPar sPath[];     // Массив данных кратчайших путей
-    private int currentVert;     // Текущая вершина
-    private int startToCurrent;  // Расстояние до currentVert
-    private Map<Vertex,Integer> resultBox = new HashMap<>();
-    public static boolean ASC = true;
-    public static boolean DESC = false;
+    private int nVerts;                                     // Текущее количество вершин
+    private int nTree;                                      // Количество вершин в дереве
+    private DistPar sPath[];                                // Массив данных кратчайших путей
+    private int currentVert;                                // Текущая вершина
+    private int startToCurrent;                             // Расстояние до currentVert
+    private Map<Vertex,Integer> resultBox = new HashMap<>();//В нем хранится вершина и расстояние до нее от стартовой точки
+    public static boolean ASC = true;                       //Cортировка в восходящем порядке
+    public static boolean DESC = false;                     //Cортировка в нисходящем порядке
 
     public Graph() {
 
         vertexList = new Vertex[MAX_VERTS];
-        adjMat = new int[MAX_VERTS][MAX_VERTS];
+        adjMat = new int[MAX_VERTS][MAX_VERTS];     // Матрица смежности
         adjMatShift = new int[MAX_VERTS][MAX_VERTS];// Матрица смежности
         nVerts = 0;
         nTree = 0;
@@ -47,7 +47,7 @@ public class Graph {
 
     public void addEdge(int start, int end, int weight)
     {
-        adjMatShift[start][end] = weight;
+        adjMat[start][end] = weight;
     }
 
     public void printAdjMat(){
@@ -57,7 +57,6 @@ public class Graph {
             }
             System.out.println();
         }
-
     }
 
     public void printAdjMatShift(){
@@ -67,7 +66,6 @@ public class Graph {
             }
             System.out.println();
         }
-
     }
 
     public void changeAddMat(int startPoint){
@@ -88,10 +86,7 @@ public class Graph {
                 }
 
             }
-
-
         }
-
     }
 
     public void path()  // Выбор кратчайших путей
@@ -121,11 +116,21 @@ public class Graph {
             nTree++;
             adjust_sPath();         // Обновление массива sPath[]
         }
-        displayPaths();// Вывод содержимого sPath[]
+     //   displayPaths();// Вывод содержимого sPath[]
         displayNearestMachinery();
+        resultBox.clear();
+        for(int j=0; j<MAX_VERTS; j++) {
+            for (int k = 0; k < MAX_VERTS; k++) {  // заполняется
+              //  adjMatShift[j][k] = INFINITY;
+                adjMat[j][k] = INFINITY;
+            }
+
+        }
         nTree = 0;
         for(int j=0; j<nVerts; j++)     // Очистка дерева
             vertexList[j].setInTreeFalse();
+            nVerts=0;
+
     }
     // -------------------------------------------------------------
     public int getMin() {
@@ -201,9 +206,8 @@ public class Graph {
                      //   System.out.println("Старотовая точка " + vertexList[j].label);
                         for (String type : vertexList[j].machineryOnField) {
                             if (type.equals(requestType)) {
-                                System.out.println(vertexList[j].label + "\t\t" + "Начало" +	"\t\t"+ requestType + "\t\t\t " + j);
+                                System.out.println(vertexList[j].label + "\t\t" + "Начало" +	"\t\t"+ requestType + "\t\t\t " + numberOfMachinery);
                                 numberOfMachinery++;
-
                             }
                         }
                     } else {                                                              //все остальные точки добавляем в контейнер
@@ -227,7 +231,7 @@ public class Graph {
 
                 }
 
-            }
+    }
 
     private static Map<Vertex, Integer> sortByComparator(Map<Vertex, Integer> unsortMap, final boolean order){
 
