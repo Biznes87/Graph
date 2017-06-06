@@ -21,7 +21,7 @@ public class FindMachinery {
         Vertex v3 = new Vertex("Field4",3,"B");
         Vertex v4 = new Vertex("Field5",4,"C");
 
-/*
+
 
         theGraph.addEdge(0,1,50);
         theGraph.addEdge(0,3,80);   //0,4,70
@@ -40,7 +40,7 @@ public class FindMachinery {
         theGraph.addEdge(2,3,20);
         theGraph.addEdge(4,3,70);
         theGraph.addEdge(4,1,50);
-*/
+
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";         // используем запятую как разделитель
@@ -87,8 +87,8 @@ public class FindMachinery {
         }
 
 
-      //  theGraph.printAdjMatShift();
-     //   theGraph.changeAddMat(k);
+     //   theGraph.printAdjMatShift();
+        theGraph.changeAddMat(k);
 
 
     /*
@@ -104,7 +104,7 @@ public class FindMachinery {
         for (int i = 0; i <Vertex.vertexBox.size() ; i++) {
             theGraph.addVertex(Vertex.vertexBox.get(i));
         }
-        */
+
 
         theGraph.addEdge(v0.index,v1.index,50);
         theGraph.addEdge(v0.index,v3.index,80);
@@ -123,7 +123,7 @@ public class FindMachinery {
         theGraph.addEdge(v2.index,v3.index,20);
         theGraph.addEdge(v4.index,v3.index,70);
         theGraph.addEdge(v1.index,v4.index,50);
-
+*/
        // theGraph.printAdjMat();
         System.out.println();
         //theGraph.printAdjMat();

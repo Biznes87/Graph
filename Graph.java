@@ -47,7 +47,7 @@ public class Graph {
 
     public void addEdge(int start, int end, int weight)
     {
-        adjMat[start][end] = weight;
+        adjMatShift[start][end] = weight;
     }
 
     public void printAdjMat(){
